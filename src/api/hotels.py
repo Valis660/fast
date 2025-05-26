@@ -8,7 +8,6 @@ from sqlalchemy import insert, select
 router = APIRouter(prefix="/hotels", tags=["Отели"])
 
 
-
 @router.get("",
          summary="Получение данных отелей",
          description="Тут можно получить информацию обо всех отелях",)
@@ -17,16 +16,21 @@ async def get_hotels(
         id: int | None = Query(None, description="Айдишник"),
         title: str | None = Query(None, description="Название отеля"),
 ):
+    per_page = pagination.per_page or 5
     async with async_session_maker() as session:
         query = select(HotelsOrm)
+        if id:
+            query = query.filter_by(id=id)
+        if title:
+            query = query.filter_by(title=title)
+        query = (
+            query
+            .limit(per_page)
+            .offset(per_page * (pagination.page - 1))
+        )
         result = await session.execute(query)
         hotels = result.scalars().all()
-        print(type(hotels), hotels)
         return hotels
-
-    # if pagination.page and pagination.per_page:
-    #     return hotels_[pagination.per_page * (pagination.page - 1):][:pagination.per_page]
-
 
 
 @router.delete("/{hotel_id}",
