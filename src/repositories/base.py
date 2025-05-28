@@ -7,7 +7,7 @@ class BaseRepository:
         self.session = session
 
 
-    async def get_all(self):
+    async def get_all(self, *args, **kwargs):
         query = select(self.model)
         result = await self.session.execute(query)
         return result.scalars().all()
@@ -18,4 +18,3 @@ class BaseRepository:
         result = await self.session.execute(query)
         return result.scalars().one_or_none()
 
-    
