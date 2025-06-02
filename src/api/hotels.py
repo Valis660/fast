@@ -7,6 +7,14 @@ from src.schemas.hotels import Hotel, HotelPATCH
 router = APIRouter(prefix="/hotels", tags=["Отели"])
 
 
+@router.get("/{hotel_id}",
+            summary="Получение данных отеля",
+            description="Тут можно получить данные одного отеля по ID",)
+async def get_hotel(hotel_id: int):
+    async with async_session_maker() as session:
+        return await HotelsRepository(session).get_one_or_none(id=hotel_id)
+
+
 @router.get("",
          summary="Получение данных отелей",
          description="Тут можно получить информацию обо всех отелях",)
@@ -24,16 +32,6 @@ async def get_hotels(
             offset=per_page * (pagination.page - 1)
         )
 
-
-
-@router.delete("/{hotel_id}",
-            summary="Удаление отеля",
-            description="Тут можно удалить отель",)
-async def delete_hotel(hotel_id: int):
-    async with async_session_maker() as session:
-        await HotelsRepository(session).delete(id=hotel_id)
-        await session.commit()
-    return {"Status": "OK"}
 
 @router.post("",
           summary="Добавление отеля",
@@ -82,5 +80,15 @@ async def partially_edit_hotel(
 ):
     async with async_session_maker() as session:
         await HotelsRepository(session).edit(hotel_data, exclude_unset=True, id=hotel_id)
+        await session.commit()
+    return {"Status": "OK"}
+
+
+@router.delete("/{hotel_id}",
+            summary="Удаление отеля",
+            description="Тут можно удалить отель",)
+async def delete_hotel(hotel_id: int):
+    async with async_session_maker() as session:
+        await HotelsRepository(session).delete(id=hotel_id)
         await session.commit()
     return {"Status": "OK"}
