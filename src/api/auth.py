@@ -1,5 +1,4 @@
 from datetime import timedelta, datetime, timezone
-
 from fastapi import APIRouter, HTTPException
 
 from passlib.context import CryptContext
@@ -20,6 +19,10 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -30,12 +33,14 @@ def create_access_token(data: dict) -> str:
 
 @router.post("/login")
 async def login_user(
-        data: UserRequestAdd,
+        data: UserRequestAdd
 ):
     async with async_session_maker() as session:
-        user = await UsersRepository(session).get_one_or_none(email=data.email)
+        user = await UsersRepository(session).get_user_with_hashed_password(email=data.email)
         if not user:
             raise HTTPException(status_code=401, detail="Пользователь с таким email не зарегистрирован!")
+        if not verify_password(data.password, user.hashed_password):
+            raise HTTPException(status_code=401, detail="Пароль не верный!")
         access_token = create_access_token({"user_id": user.id})
         return {"access_token": access_token}
 
