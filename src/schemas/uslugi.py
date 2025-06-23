@@ -9,3 +9,10 @@ class Uslugi(UslugiAdd):
 
     model_config = ConfigDict(from_attributes=True)
 
+
+class RoomUslugiAdd(BaseModel):
+    room_id: int
+    uslugi_id: int
+
+class RoomUslugi(RoomUslugiAdd):
+    id: int

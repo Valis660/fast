@@ -11,7 +11,7 @@ class UslugiOrm(Base):
 
 
 
-class RoomsUslugi(Base):
+class RoomsUslugiOrm(Base):
     __tablename__ = "rooms_uslugi"
     id: Mapped[int] = mapped_column(primary_key=True)
     room_id: Mapped[int] = mapped_column(ForeignKey("rooms.id"))
