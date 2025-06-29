@@ -38,6 +38,7 @@ async def create_room(db: DBDep, hotel_id: int, room_data: RoomAddRequest = Body
 async def edit_room(db: DBDep, hotel_id: int, room_id: int, room_data: RoomAddRequest):
     _room_data = RoomAdd(hotel_id=hotel_id, **room_data.model_dump())
     await db.rooms.edit(_room_data, id=room_id)
+    await db.rooms_uslugi.set_room_uslugi(room_id, uslugi_ids=room_data.uslugi_ids)
     await db.commit()
     return {"Status": "OK"}
 
@@ -49,8 +50,11 @@ async def partially_edit_room(
     room_id: int,
     room_data: RoomPatchRequest
 ):
+    _room_data_dict = room_data.model_dump(exclude_unset=True)
     _room_data = RoomPatch(hotel_id=hotel_id, **room_data.model_dump(exclude_unset=True))
     await db.rooms.edit(_room_data, exclude_unset=True, id=room_id, hotel_id=hotel_id)
+    if "uslugi_ids" in _room_data_dict:
+        await db.rooms_uslugi.set_room_uslugi(room_id, uslugi_ids=_room_data_dict["uslugi_ids"])
     await db.commit()
     return {"Status": "OK"}
 
