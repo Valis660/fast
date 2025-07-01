@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
 from src.schemas.uslugi import Uslugi
 
@@ -22,7 +22,6 @@ class RoomAdd(BaseModel):
 class Room(RoomAdd):
     id: int
 
-    model_config = ConfigDict(from_attributes=True)
 
 
 class RoomWithRels(Room):

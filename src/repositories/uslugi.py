@@ -2,13 +2,14 @@ from httpx import delete
 
 from src.repositories.base import BaseRepository
 from src.models.uslugi import UslugiOrm, RoomsUslugiOrm
-from src.schemas.uslugi import Uslugi, RoomUslugi
+from src.repositories.mappers.mappers import UslugiDataMapper
+from src.schemas.uslugi import RoomUslugi
 from sqlalchemy import select, delete, insert
 
 
 class UslugiRepository(BaseRepository):
     model = UslugiOrm
-    schema = Uslugi
+    mapper = UslugiDataMapper
 
 
 class RoomsUslugiRepository(BaseRepository):

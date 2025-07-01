@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 from datetime import date
 
 class BookingAddRequest(BaseModel):
@@ -17,6 +17,4 @@ class BookingAdd(BaseModel):
 
 class Booking(BookingAdd):
     id: int
-
-    model_config = ConfigDict(from_attributes=True)
 
