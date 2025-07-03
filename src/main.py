@@ -15,7 +15,7 @@ from src.api.hotels import router as router_hotels
 from src.api.rooms import router as router_rooms
 from src.api.uslugi import router as router_uslugi
 from src.api.bookings import router as router_bookings
-
+from src.api.images import router as router_images
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -34,6 +34,6 @@ app.include_router(router_hotels)
 app.include_router(router_rooms)
 app.include_router(router_uslugi)
 app.include_router(router_bookings)
-
+app.include_router(router_images)
 if __name__ == "__main__":
     uvicorn.run("main:app", reload=True)
