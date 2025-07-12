@@ -8,7 +8,7 @@ from src.tasks.tasks import test_task
 router = APIRouter(prefix="/uslugi", tags=["Удобства"])
 
 @router.get("")
-@cache(expire=10)
+# @cache(expire=10)
 async def get_uslugi(db: DBDep):
     print("ИДУ В БАЗУ ДАННЫХ")
     return await db.uslugi.get_all()
