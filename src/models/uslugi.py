@@ -8,6 +8,7 @@ from src.database import Base
 if typing.TYPE_CHECKING:
     from src.models import RoomsOrm
 
+
 class UslugiOrm(Base):
     __tablename__ = "uslugi"
     id: Mapped[int] = mapped_column(primary_key=True)

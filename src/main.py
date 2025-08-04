@@ -17,6 +17,7 @@ from src.api.uslugi import router as router_uslugi
 from src.api.bookings import router as router_bookings
 from src.api.images import router as router_images
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # При старте приложения
@@ -26,6 +27,7 @@ async def lifespan(app: FastAPI):
     yield
     # При выключении/перезагрузке приложения
     await redis_manager.close()
+
 
 app = FastAPI(lifespan=lifespan)
 

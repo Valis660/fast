@@ -23,7 +23,6 @@ class Room(RoomAdd):
     id: int
 
 
-
 class RoomWithRels(Room):
     uslugi: list[Uslugi]
 

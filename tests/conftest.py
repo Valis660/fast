@@ -12,7 +12,7 @@ from src.api.dependencies import get_db
 from src.config import settings
 from src.database import Base, engine_null_pool, async_session_maker_null_pool
 from src.main import app
-from src.models import * # noqa
+from src.models import *  # noqa
 from src.schemas.hotels import HotelAdd
 from src.schemas.rooms import RoomAdd
 from src.utils.db_manager import DBManager
@@ -25,7 +25,7 @@ def check_test_mode():
 
 async def get_db_null_pool():
     async with DBManager(session_factory=async_session_maker_null_pool) as db:
-        yield db 
+        yield db
 
 
 @pytest.fixture(scope="function")
@@ -65,23 +65,11 @@ async def ac() -> AsyncGenerator[Any, None]:
 
 @pytest.fixture(scope="session", autouse=True)
 async def register_user(ac, setup_database):
-    await ac.post(
-        "/auth/register",
-        json={
-            "email": "kot@pes.ru",
-            "password": "12345"
-        }
-    )
+    await ac.post("/auth/register", json={"email": "kot@pes.ru", "password": "12345"})
+
 
 @pytest.fixture(scope="session")
 async def authenticated_ac(register_user, ac):
-    await ac.post(
-        "/auth/login",
-        json={
-            "email": "kot@pes.ru",
-            "password": "12345"
-        }
-    )
+    await ac.post("/auth/login", json={"email": "kot@pes.ru", "password": "12345"})
     assert ac.cookies["access_token"]
     yield ac
-
