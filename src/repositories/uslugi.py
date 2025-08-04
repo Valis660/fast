@@ -4,7 +4,7 @@ from src.repositories.base import BaseRepository
 from src.models.uslugi import UslugiOrm, RoomsUslugiOrm
 from src.repositories.mappers.mappers import UslugiDataMapper
 from src.schemas.uslugi import RoomUslugi
-from sqlalchemy import select, delete, insert
+from sqlalchemy import select, insert
 
 
 class UslugiRepository(BaseRepository):
