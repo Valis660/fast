@@ -58,7 +58,7 @@ async def setup_database(check_test_mode):
 
 
 @pytest.fixture(scope="session")
-async def ac() -> AsyncGenerator[AsyncClient]:
+async def ac():
     async with AsyncClient(app=app, base_url="http://test") as ac:
         yield ac
 
