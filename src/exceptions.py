@@ -13,6 +13,11 @@ class NabronirovalException(Exception):
 class ObjectNotFoundException(NabronirovalException):
     detail = "Объект не найден"
 
+class RoomNotFoundException(ObjectNotFoundException):
+    detail = "Номер не найден"
+
+class HotelNotFoundException(ObjectNotFoundException):
+    detail = "Отель не найден"
 
 class ObjectAlreadyExistsException(NabronirovalException):
     detail = "Похожий объект уже существует"
