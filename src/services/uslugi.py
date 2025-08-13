@@ -9,3 +9,6 @@ class UslugiService(BaseService):
 
         test_task.delay()
         return uslugi
+
+    async def get_uslugi(self):
+        return await self.db.uslugi.get_all()

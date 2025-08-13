@@ -11,7 +11,7 @@ router = APIRouter(prefix="/uslugi", tags=["Удобства"])
 @router.get("")
 @cache(expire=10)
 async def get_uslugi(db: DBDep):
-    return await db.uslugi.get_all()
+    return await UslugiService(db).get_uslugi()
 
 
 @router.post("")
