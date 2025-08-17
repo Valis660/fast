@@ -35,7 +35,8 @@ class RoomService(BaseService):
         rooms_uslugi_data = [
             RoomUslugiAdd(room_id=room.id, uslugi_id=u_id) for u_id in room_data.uslugi_ids
         ]
-        await self.db.rooms_uslugi.add_bulk(rooms_uslugi_data)
+        if rooms_uslugi_data:
+            await self.db.rooms_uslugi.add_bulk(rooms_uslugi_data)
         await self.db.commit()
 
     async def edit_room(
