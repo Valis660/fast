@@ -1,4 +1,1 @@
-venv
-.idea
-__pycache__
-.env
+# Python\n__pycache__/\n*.pyc\n*.pyo\n*.pyd\n*.egg-info/\n.venv/\nvenv/\n.pytest_cache/\n.mypy_cache/\n.ruff_cache/\n.coverage*\n\n# Env\n.env\n.env.*\n*.env\n\n# IDE/OS\n.idea/\n.vscode/\n.DS_Store\nThumbs.db\n\n# Node/Frontend\nfrontend/node_modules/\nfrontend/build/\nfrontend/.cache/\n\n# Logs\nlogs/\n*.log\n\n# Alembic artifacts\n*.db\n

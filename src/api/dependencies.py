@@ -17,6 +17,12 @@ PaginationDep = Annotated[PaginationParams, Depends()]
 
 
 def get_token(request: Request) -> str:
+    # Сначала проверяем заголовок Authorization
+    auth_header = request.headers.get("Authorization")
+    if auth_header and auth_header.startswith("Bearer "):
+        return auth_header.split(" ")[1]
+    
+    # Если нет заголовка, проверяем cookies
     token = request.cookies.get("access_token", None)
     if not token:
         raise NoAccessTokenHTTPException
@@ -24,7 +30,6 @@ def get_token(request: Request) -> str:
 
 
 def get_current_user_id(token: str = Depends(get_token)) -> int:
-    data = AuthService().decode_token(token)
     try:
         data = AuthService().decode_token(token)
     except IncorrectTokenException:

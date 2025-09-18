@@ -14,13 +14,17 @@ router = APIRouter(prefix="/auth", tags=["Авторизация и аутент
 async def register_user(
     db: DBDep,
     data: UserRequestAdd,
+    response: Response,
 ):
     try:
         await AuthService(db).register_user(data)
     except UserAlreadyExistsException:
         raise UserEmailAlreadyExistsHTTPException
 
-    return {"status": "OK"}
+    # Автоматически входим в систему после регистрации
+    access_token = await AuthService(db).login_user(data)
+    response.set_cookie("access_token", access_token)
+    return {"access_token": access_token}
 
 
 @router.post("/login")

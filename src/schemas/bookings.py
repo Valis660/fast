@@ -18,3 +18,4 @@ class BookingAdd(BaseModel):
 
 class Booking(BookingAdd):
     id: int
+    total_coast: int

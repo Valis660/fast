@@ -37,7 +37,11 @@ class AuthService(BaseService):
 
     async def register_user(self, data: UserRequestAdd):
         hashed_password = self.hash_password(data.password)
-        new_user_data = UserAdd(email=data.email, hashed_password=hashed_password)
+        new_user_data = UserAdd(
+            email=data.email, 
+            hashed_password=hashed_password,
+            name=data.name
+        )
         try:
             await self.db.users.add(new_user_data)
             await self.db.commit()
